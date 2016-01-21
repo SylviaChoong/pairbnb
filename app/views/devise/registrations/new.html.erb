@@ -21,6 +21,17 @@
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
 
+  <div class="field">
+    <%= f.label "Profile Image" %><br />
+    <%= f.file_field :avatar %>
+    <%= f.hidden_field :avatar_cache %>
+  </div>
+
+  <div class="field">
+    <%= f.hidden_field :provider %>
+    <%= f.hidden_field :uid %>
+  </div>
+  
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>

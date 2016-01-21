@@ -1,0 +1,57 @@
+<%= form_for(@reservation) do |f| %>
+  <% if @reservation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@reservation.errors.count, "error") %> prohibited this reservation from being saved:</h2>
+
+      <ul>
+      <% @reservation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :guests %><br>
+    <%= f.number_field :guests %>
+  </div>
+  <div class="field">
+    <%= f.label :startdate %><br>
+    <%= f.date_select :startdate %>
+  </div>
+  <div class="field">
+    <%= f.label :enddate %><br>
+    <%= f.date_select :enddate %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :listing_id, value: @listing.id %>
+  </div>
+  <div class="actions">
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Checkout</button>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">New Transaction</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-container radius-box glassy-bg small-10 small-centered medium-8 large-6 columns">
+              <%= form_tag transactions_path do%>
+                <p>Please enter your payment details:</p>
+                <div id="payment-form"></div>
+              <%end%>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <%= f.submit "Confirm transaction #{@price}", class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+<% end %>

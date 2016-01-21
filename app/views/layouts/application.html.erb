@@ -1,17 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pairbnb</title>
+  <%= include_gon %>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <script src="https://js.braintreegateway.com/v2/braintree.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="<%= root_path %>">PairBnB</a>
+    </div>
 
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <% if current_user %>
+        <li class="dropdown">
+	        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="padding:0px;"><% if current_user.avatar.thumb.url.nil? %>
+            <h5 style="padding:8px;">My Account</h5>
+          <% else %>
+            <%= image_tag current_user.image_url %>
+          <% end %>
+          </a>
+        	<ul class="dropdown-menu" role="menu">
+        	  <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+              <li class="divider"></li>
+			  <li><%= link_to "Sign Out",  destroy_user_session_path, :method => :delete  %></li>
+			</ul>
+		</li>
+		<% else %>
+			<li><%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %></li>
+			<li><%= link_to "Sign In",  new_user_session_path %></li>
+			<li><%= link_to "Sign Up",  new_user_registration_path %></li>
+		<% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-<%= yield %>
+<main>
+	<% if notice %>
+	<div class="alert alert-dismissible alert-success">
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	  <strong>Success! </strong><%= notice %>
+	</div>
+	<% end %>
+
+	<% if alert %>
+	<div class="alert alert-dismissible alert-warning">
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	  <strong>Warning! </strong><%= alert %>
+	</div>
+	<% end %>
+
+	<%= yield %>
+</main>
+
+<footer>
+	© Pairbnb, Inc.
+</footer>
 
 </body>
 </html>

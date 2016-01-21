@@ -1,0 +1,39 @@
+<p>
+  <strong>Title:</strong>
+  <%= @listing.title %>
+</p>
+
+<p>
+  <% @listing.avatars.each do |listing| %>
+  <%= image_tag listing.medium.url %>
+  <% end %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @listing.description %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @listing.price %>
+</p>
+
+<p>..............................................</p>
+
+<p>
+  <strong>Guests:</strong>
+  <%= @reservation.guests %>
+</p>
+
+<p>
+  <strong>Startdate:</strong>
+  <%= @reservation.startdate %>
+</p>
+
+<p>
+  <strong>Enddate:</strong>
+  <%= @reservation.enddate %>
+</p>
+
+<%= link_to 'Go to Home', root_path %>

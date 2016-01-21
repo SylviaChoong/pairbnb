@@ -1,7 +1,46 @@
+<div class="jumbotron">
+  <h1>Welcome Home</h1>
+  <p>Rent unique places to stay from local hosts in 190+ countries.</p>
+
+  <div id="search">
+  <form class="navbar-form" role="search">
+    <div class="form-group">
+        <%= form_for root_path, method: :get do |f| %>
+          <p>
+            <%= text_field_tag :q, params[:q], class: "form-control", placeholder: "Listing Title" %>
+            <%= submit_tag "Search Listings", name: nil, class: "btn btn-primary" %>
+          </p>
+        <% end %>
+    </div>
+  </form>
+  </div>
+</div>
+
+<div class="content" style="text-align:center;">
+<h3 style="margin-bottom:35px;">Travel To A New Place</h3>
+<div class="row">
+  <% @listings.each do |listing| %>
+    <div class="col-sm-3">
+      <% if listing.avatars.empty? %>
+        <p><%= link_to ':)', listing_path(listing) %></p>
+      <% else %>
+        <p><%= link_to(image_tag(listing.avatars[0].medium.url), listing_path(listing)) %></p>
+      <% end %>
+      <p><%= listing.title %></p>
+      <p><%= listing.description %></p>
+      <p><%= listing.price %></p>
+      <% if current_user %>
+        <% if current_user.id == listing.user_id %>
+        <p><%= link_to 'Edit', edit_listing_path(listing) %></p>
+        <p><%= link_to 'Destroy', listing_path(listing), method: :delete, data: { confirm: 'Are you sure?' } %></p>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+<br>
+<br>
 <% if current_user %>
-<%= link_to "Sign Out",  destroy_user_session_path, :method => :delete  %>
-<% else %>
-<%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
-<%= link_to "Sign In",  new_user_session_path %> | 
-<%= link_to "Sign Up",  new_user_registration_path %>
+  <a href="/listings/new" class="btn btn-primary"><strong>Add New List</strong></a>
 <% end %>
+</div>
